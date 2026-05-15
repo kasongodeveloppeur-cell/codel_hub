@@ -1,0 +1,176 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'kasongodeveloppeur@gmail.com' ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.clubRole in ['Président', 'Superviseur'])
+      );
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // --- Validation Blueprints ---
+
+    function isValidUser(data) {
+      return data.id == request.auth.uid &&
+             data.name is string && data.name.size() <= 100 &&
+             data.email is string && data.email.size() <= 100 &&
+             data.status is string &&
+             data.clubRole in ['Président', 'Vice-Président', 'Secrétaire', 'Comptable', 'Superviseur', 'Membre'] &&
+             (data.avatar == null || (data.avatar is string && data.avatar.size() <= 500)) &&
+             (data.level == null || data.level is number) &&
+             (data.handle == null || (data.handle is string && data.handle.size() <= 50)) &&
+             (data.geminiApiKey == null || (data.geminiApiKey is string && data.geminiApiKey.size() <= 200)) &&
+             (data.skills == null || data.skills is list) &&
+             (data.tools == null || data.tools is list) &&
+             (data.platforms == null || data.platforms is list) &&
+             (data.bio == null || (data.bio is string && data.bio.size() <= 1000)) &&
+             (data.notificationPreferences == null || (
+               data.notificationPreferences is map &&
+               data.notificationPreferences.securityAlerts is bool &&
+               data.notificationPreferences.projectUpdates is bool
+             )) &&
+             data.isAdmin is bool;
+    }
+
+    function isValidProject(data) {
+      return data.title is string && data.title.size() <= 100 &&
+             data.description is string && data.description.size() <= 1000 &&
+             data.authorId == request.auth.uid &&
+             data.status in ['LIVE', 'BUSY', 'STABLE', 'PAUSED'] &&
+             data.progress is number && data.progress >= 0 && data.progress <= 100;
+    }
+
+    function isValidLearningPath(data) {
+      return data.title is string && data.title.size() <= 150 &&
+             data.description is string && data.description.size() <= 2000;
+    }
+
+    function isValidModule(data) {
+      return data.title is string && data.title.size() <= 150 &&
+             data.instructor is string && data.instructor.size() <= 100 &&
+             data.duration is string && data.duration.size() <= 50;
+    }
+
+    function isValidChatMessage(data) {
+      return data.text is string && data.text.size() <= 500 &&
+             data.authorId == request.auth.uid &&
+             data.timestamp == request.time;
+    }
+
+    function isValidForumThread(data) {
+      return data.topicId is string &&
+             data.authorId == request.auth.uid &&
+             data.title is string && data.title.size() <= 150 &&
+             data.content is string && data.content.size() <= 5000 &&
+             data.createdAt == request.time;
+    }
+
+    function isValidForumComment(data) {
+      return data.threadId is string &&
+             data.authorId == request.auth.uid &&
+             data.content is string && data.content.size() <= 2000 &&
+             data.createdAt == request.time;
+    }
+
+    // --- Match Rules ---
+
+    match /test/connection {
+      allow read: if isSignedIn();
+    }
+
+    match /users/{userId} {
+      allow get: if isSignedIn();
+      allow list: if isSignedIn();
+      
+      allow create: if isOwner(userId) && isValidUser(incoming()) && 
+                       (incoming().clubRole == 'Membre' || request.auth.token.email == 'kasongodeveloppeur@gmail.com'); 
+      
+      allow update: if (isOwner(userId) && isValidUser(incoming()) && 
+                        (incoming().clubRole == existing().clubRole || isAdmin()) && 
+                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'avatar', 'handle', 'level', 'geminiApiKey', 'skills', 'tools', 'platforms', 'bio', 'notificationPreferences'])) ||
+                       (isAdmin() && isValidUser(incoming()));
+    }
+
+    match /projects/{projectId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidProject(incoming());
+      allow update: if (isOwner(existing().authorId) && isValidProject(incoming())) || isAdmin();
+      allow delete: if isOwner(existing().authorId) || isAdmin();
+    }
+
+    match /chat_messages/{messageId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidChatMessage(incoming());
+      // Chat messages are typically immutable
+    }
+
+    match /events/{eventId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /forum_topics/{topicId} {
+      allow read: if isSignedIn();
+      allow update: if (isSignedIn() && 
+                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['threadsCount', 'lastUpdated'])) || 
+                       isAdmin();
+      allow write: if isAdmin();
+    }
+
+    match /forum_threads/{threadId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidForumThread(incoming());
+      allow update: if (isOwner(existing().authorId) && isValidForumThread(incoming()) && 
+                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['title', 'content'])) || 
+                       (isSignedIn() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['repliesCount', 'views'])) ||
+                       isAdmin();
+      allow delete: if isOwner(existing().authorId) || isAdmin();
+    }
+
+    match /forum_comments/{commentId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidForumComment(incoming());
+      allow update: if (isOwner(existing().authorId) && isValidForumComment(incoming()) && 
+                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['content'])) || 
+                       isAdmin();
+      allow delete: if isOwner(existing().authorId) || isAdmin();
+    }
+
+    match /learning_paths/{pathId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+
+      match /modules/{moduleId} {
+        allow read: if isSignedIn();
+        allow write: if isAdmin();
+      }
+    }
+  }
+}

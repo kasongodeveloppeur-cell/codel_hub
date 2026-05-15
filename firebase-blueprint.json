@@ -1,0 +1,193 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A member of the Codel_club",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "avatar": { "type": "string" },
+        "level": { "type": "number" },
+        "handle": { "type": "string" },
+        "isAdmin": { "type": "boolean" },
+        "geminiApiKey": { "type": "string" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "tools": { "type": "array", "items": { "type": "string" } },
+        "platforms": { "type": "array", "items": { "type": "string" } },
+        "bio": { "type": "string" },
+        "notificationPreferences": {
+          "type": "object",
+          "properties": {
+            "securityAlerts": { "type": "boolean" },
+            "projectUpdates": { "type": "boolean" }
+          }
+        },
+        "clubRole": { 
+          "type": "string",
+          "enum": ["Président", "Vice-Président", "Secrétaire", "Comptable", "Superviseur", "Membre"]
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "clubRole"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "A project developed by club members",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "status": { "type": "string", "enum": ["LIVE", "BUSY", "PAUSED"] },
+        "progress": { "type": "number" },
+        "author": { "type": "string" },
+        "authorId": { "type": "string" },
+        "githubUrl": { "type": "string" },
+        "liveUrl": { "type": "string" },
+        "commits": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "description", "authorId"]
+    },
+    "Event": {
+      "title": "Event",
+      "description": "A community event or workshop",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "description": { "type": "string" },
+        "type": { "type": "string" },
+        "status": { "type": "string", "enum": ["upcoming", "past"] },
+        "attendees": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "date", "status"]
+    },
+    "ForumTopic": {
+      "title": "Forum Topic",
+      "description": "A category for discussions in the community forum",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "threadsCount": { "type": "number" },
+        "lastUpdated": { "type": "string", "format": "date-time" },
+        "category": { "type": "string", "enum": ["General", "Help", "Showcase"] },
+        "icon": { "type": "string" }
+      },
+      "required": ["title", "category"]
+    },
+    "ForumThread": {
+      "title": "Forum Thread",
+      "description": "A discussion thread within a topic",
+      "type": "object",
+      "properties": {
+        "topicId": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "views": { "type": "number" },
+        "repliesCount": { "type": "number" }
+      },
+      "required": ["topicId", "authorId", "title", "content", "createdAt"]
+    },
+    "ForumComment": {
+      "title": "Forum Comment",
+      "description": "A reply to a forum thread",
+      "type": "object",
+      "properties": {
+        "threadId": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["threadId", "authorId", "content", "createdAt"]
+    },
+    "ChatMessage": {
+      "title": "Chat Message",
+      "description": "A message in the live chat",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "author": { "type": "string" },
+        "authorId": { "type": "string" },
+        "avatar": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["text", "authorId", "timestamp"]
+    },
+    "Module": {
+      "title": "Module",
+      "description": "A learning module",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "instructor": { "type": "string" },
+        "duration": { "type": "string" },
+        "progress": { "type": "number" },
+        "icon": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["title", "instructor", "duration"]
+    },
+    "LearningPath": {
+      "title": "Learning Path",
+      "description": "A structured learning path",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "modulesCount": { "type": "number" },
+        "enrolled": { "type": "number" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "thumbnail": { "type": "string" }
+      },
+      "required": ["title", "description"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Club projects"
+    },
+    "/events/{eventId}": {
+      "schema": "Event",
+      "description": "Club events"
+    },
+    "/forum_topics/{topicId}": {
+      "schema": "ForumTopic",
+      "description": "Community forum categories"
+    },
+    "/forum_threads/{threadId}": {
+      "schema": "ForumThread",
+      "description": "Discussion threads"
+    },
+    "/forum_comments/{commentId}": {
+      "schema": "ForumComment",
+      "description": "Replies to threads"
+    },
+    "/chat_messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Live chat log"
+    },
+    "/learning_paths/{pathId}": {
+      "schema": "LearningPath",
+      "description": "Curriculum paths"
+    },
+    "/learning_paths/{pathId}/modules/{moduleId}": {
+      "schema": "Module",
+      "description": "Modules within a path"
+    }
+  }
+}

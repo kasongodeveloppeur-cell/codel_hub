@@ -1,0 +1,6 @@
+{
+  "name": "Codel_club",
+  "description": "A high-tech computer club management platform for developers, featuring identity access control, learning roadmaps, project tracking, and community collaboration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
