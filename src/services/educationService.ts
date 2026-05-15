@@ -18,7 +18,7 @@ export const educationService = {
     try {
       const q = query(collection(db, PATHS_COLLECTION), orderBy('title', 'asc'));
       const snapshot = await getDocs(q);
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as LearningPath));
+      return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() } as LearningPath));
     } catch (error) {
       handleFirestoreError(error, OperationType.GET, PATHS_COLLECTION);
       return [];
@@ -30,7 +30,7 @@ export const educationService = {
       const modulesRef = collection(db, PATHS_COLLECTION, pathId, 'modules');
       const q = query(modulesRef, orderBy('order', 'asc'));
       const snapshot = await getDocs(q);
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Module));
+      return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() } as Module));
     } catch (error) {
       handleFirestoreError(error, OperationType.GET, `${PATHS_COLLECTION}/${pathId}/modules`);
       return [];

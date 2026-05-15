@@ -32,11 +32,16 @@ export default function ProjectModal({ isOpen, onClose, onSuccess }: ProjectModa
       await projectService.createProject({
         title: formData.title,
         description: formData.description,
-        tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag !== ''),
+        tags: formData.tags,
         status: formData.status,
         progress: formData.progress,
         githubUrl: formData.githubUrl,
-        liveUrl: formData.liveUrl
+        liveUrl: formData.liveUrl,
+        teamMembers: [user.id],
+        teamLead: user.id,
+        technologies: formData.tags,
+        difficulty: 'Débutant',
+        category: 'WEB'
       }, user.id);
       
       onSuccess?.();

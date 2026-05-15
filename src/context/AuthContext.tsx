@@ -52,7 +52,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             handle: fUser.displayName?.toLowerCase().replace(/\s+/g, '_') || 'member',
             isAdmin: fUser.email === 'kasongodeveloppeur@gmail.com',
             clubRole: fUser.email === 'kasongodeveloppeur@gmail.com' ? 'Président' : 'Membre',
-            geminiApiKey: ''
+            geminiApiKey: '',
+            badges: [],
+            points: 0,
+            completedModules: [],
+            attendedEvents: [],
+            projectsContributed: []
           };
           await setDoc(userDocRef, newUser);
         }

@@ -15,7 +15,7 @@ export const getAllUsers = async (): Promise<AppUser[]> => {
   const usersRef = collection(db, 'users');
   try {
     const snapshot = await getDocs(usersRef);
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as AppUser));
+    return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() } as AppUser));
   } catch (error) {
     handleFirestoreError(error, OperationType.GET, 'users');
     return [];

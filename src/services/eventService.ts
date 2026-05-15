@@ -19,7 +19,7 @@ export const eventService = {
     try {
       const q = query(collection(db, COLLECTION), orderBy('date', 'asc'));
       const snapshot = await getDocs(q);
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Event));
+      return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() } as Event));
     } catch (error) {
       handleFirestoreError(error, OperationType.GET, COLLECTION);
       return [];

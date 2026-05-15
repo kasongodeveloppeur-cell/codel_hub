@@ -28,7 +28,7 @@ export const notificationService = {
       const q = query(usersRef, where('notificationPreferences.securityAlerts', '==', true));
       const snapshot = await getDocs(q);
       
-      const emailPromises = snapshot.docs.map(doc => {
+      const emailPromises = snapshot.docs.map((doc: any) => {
         const user = doc.data() as AppUser;
         return this.sendEmail(
           user.email,
@@ -53,7 +53,7 @@ export const notificationService = {
       const q = query(usersRef, where('notificationPreferences.projectUpdates', '==', true));
       const snapshot = await getDocs(q);
       
-      const emailPromises = snapshot.docs.map(doc => {
+      const emailPromises = snapshot.docs.map((doc: any) => {
         const user = doc.data() as AppUser;
         return this.sendEmail(
           user.email,

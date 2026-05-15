@@ -29,12 +29,12 @@ export const chatService = {
     );
 
     return onSnapshot(q, (snapshot) => {
-      const messages = snapshot.docs.map(doc => ({
+      const messages = snapshot.docs.map((doc: any) => ({
         id: doc.id,
         ...doc.data()
       } as ChatMessage)).reverse();
       callback(messages);
-    }, (error) => {
+    }, (error: any) => {
       handleFirestoreError(error, OperationType.GET, COLLECTION);
     });
   },

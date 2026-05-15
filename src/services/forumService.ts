@@ -26,7 +26,7 @@ export const forumService = {
     try {
       const q = query(collection(db, TOPICS_COLLECTION), orderBy('title', 'asc'));
       const snapshot = await getDocs(q);
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ForumTopic));
+      return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() } as ForumTopic));
     } catch (error) {
       handleFirestoreError(error, OperationType.GET, TOPICS_COLLECTION);
       return [];
@@ -42,7 +42,7 @@ export const forumService = {
         orderBy('createdAt', 'desc')
       );
       const snapshot = await getDocs(q);
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ForumThread));
+      return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() } as ForumThread));
     } catch (error) {
       handleFirestoreError(error, OperationType.GET, THREADS_COLLECTION);
       return [];
@@ -97,7 +97,7 @@ export const forumService = {
         orderBy('createdAt', 'asc')
       );
       const snapshot = await getDocs(q);
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ForumComment));
+      return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() } as ForumComment));
     } catch (error) {
       handleFirestoreError(error, OperationType.GET, COMMENTS_COLLECTION);
       return [];
@@ -130,8 +130,8 @@ export const forumService = {
       if (snapshot.empty) {
         const initialTopics: Omit<ForumTopic, 'id'>[] = [
           { title: 'Discussions Générales', description: 'Tech, carrière, et vie du club au quotidien.', threadsCount: 0, lastUpdated: new Date().toISOString(), category: 'General', icon: 'MessageSquare' },
-          { title: 'Aide & Debugging', description: 'Bloqué sur un bug ? Besoin d\'une revue de code ? Postez ici.', threadsCount: 0, lastUpdated: new Date().toISOString(), category: 'Help', icon: 'HelpCircle' },
-          { title: 'Showcase Projets', description: 'Partagez vos créations et obtenez des retours constructifs.', threadsCount: 0, lastUpdated: new Date().toISOString(), category: 'Showcase', icon: 'Share2' }
+          { title: 'Aide & Debugging', description: 'Bloqué sur un bug ? Besoin d\'une revue de code ? Postez ici.', threadsCount: 0, lastUpdated: new Date().toISOString(), category: 'AIDE', icon: 'HelpCircle' },
+          { title: 'Showcase Projets', description: 'Partagez vos créations et obtenez des retours constructifs.', threadsCount: 0, lastUpdated: new Date().toISOString(), category: 'SHOWCASE', icon: 'Share2' }
         ];
         
         for (const topic of initialTopics) {

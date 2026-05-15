@@ -57,7 +57,7 @@ export default function Security() {
     user.id.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const roles: AppUser['clubRole'][] = ['Président', 'Vice-Président', 'Secrétaire', 'Comptable', 'Superviseur', 'Membre'];
+  const roles: AppUser['clubRole'][] = ['Président', 'Vice-Président', 'Secrétaire', 'Responsable Formation', 'Responsable Projets', 'Responsable Communication', 'Membre'];
 
   return (
     <div className="relative space-y-16 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
