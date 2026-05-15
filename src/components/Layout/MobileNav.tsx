@@ -5,7 +5,9 @@ import {
   Shield, 
   User,
   Info,
-  GraduationCap
+  GraduationCap,
+  BookOpen,
+  Award
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useAuth } from '../../context/AuthContext';
@@ -15,6 +17,8 @@ export function MobileNav() {
 
   const navItems = [
     { icon: LayoutDashboard, label: 'Hub', path: '/' },
+    { icon: BookOpen, label: 'Library', path: '/library' },
+    { icon: Award, label: 'Academy', path: '/academy' },
     { icon: Briefcase, label: 'Projets', path: '/projects' },
     { icon: Shield, label: 'Sécurité', path: '/security' },
     { icon: isAdmin ? Shield : Info, label: isAdmin ? 'Admin' : 'Infos', path: isAdmin ? '/admin' : '/about' },

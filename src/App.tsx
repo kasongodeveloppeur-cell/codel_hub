@@ -11,6 +11,8 @@ import Security from './components/Security';
 import AdminDashboard from './components/AdminDashboard';
 import About from './components/About';
 import Login from './components/Login';
+import { LibraryPage } from './components/LibraryPage';
+import { OfficialTraining } from './components/OfficialTraining';
 import { useAuth } from './context/AuthContext';
 
 function App() {
@@ -56,6 +58,8 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/security" element={<Security />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/library" element={<LibraryPage />} />
+                <Route path="/academy" element={<OfficialTraining />} />
                 <Route 
                   path="/admin" 
                   element={isAdmin ? <AdminDashboard /> : <Navigate to="/" />} 

@@ -8,7 +8,9 @@ import {
   CircleHelp,
   LogOut,
   Info,
-  Users
+  Users,
+  BookOpen,
+  Award
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -22,6 +24,8 @@ export function Sidebar() {
 
   const navItems = [
     { icon: LayoutDashboard, label: 'Hub Central', path: '/' },
+    { icon: BookOpen, label: 'CODEL Library', path: '/library', badge: 'NEW' },
+    { icon: Award, label: 'CODEL Academy', path: '/academy', badge: 'NEW' },
     { icon: GraduationCap, label: 'Académie', path: '/education' },
     { icon: Briefcase, label: 'Missions & Projets', path: '/projects' },
     { icon: Users, label: 'Communauté', path: '/community' },
@@ -64,7 +68,14 @@ export function Sidebar() {
           >
             {({ isActive }) => (
               <>
-                <item.icon className="w-6 h-6 shrink-0" />
+                <div className="relative">
+                  <item.icon className="w-6 h-6 shrink-0" />
+                  {item.badge && (
+                    <span className="absolute -top-1 -right-1 px-1.5 py-0.5 text-[8px] font-bold bg-brand-magenta text-white rounded-full">
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
                 <span className="hidden xl:block font-medium text-sm">{item.label}</span>
                 {/* Active Indicator Line */}
                 {isActive && (
