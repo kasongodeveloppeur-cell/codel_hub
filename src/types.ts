@@ -231,6 +231,144 @@ export type QuizQuestion = {
   points: number;
 };
 
+// Types pour CODEL Secure Library
+export type SecureResourceSource = 'OPEN_LIBRARY' | 'INTERNET_ARCHIVE' | 'OFFICIAL_DOCS' | 'FREE_BOOKS' | 'UNIVERSITY_COURSES' | 'CODEL_INTERNAL';
+
+export type ResourceLicense = 'PUBLIC_DOMAIN' | 'CREATIVE_COMMONS' | 'OPEN_SOURCE' | 'FAIR_USE' | 'EDUCATIONAL_USE' | 'CODEL_LICENSED';
+
+export type SecureLibraryResource = {
+  id: string;
+  title: string;
+  description: string;
+  category: 'PROGRAMMATION' | 'IA' | 'CYBERSECURITE' | 'MOBILE' | 'WEB' | 'LINUX' | 'CLOUD' | 'MATHS' | 'ALGORITHMES';
+  type: 'PDF' | 'EPUB' | 'VIDEO' | 'DOCUMENTATION' | 'INTERACTIVE';
+  
+  // Source et licence
+  source: SecureResourceSource;
+  license: ResourceLicense;
+  sourceUrl?: string; // URL externe si applicable
+  isDownloadable: boolean; // Contrôle du téléchargement
+  
+  // Métadonnées
+  author?: string;
+  publisher?: string;
+  publishedYear?: number;
+  pages?: number;
+  duration?: number; // Pour vidéos en minutes
+  language: 'FR' | 'EN' | 'ES';
+  difficulty: 'DEBUTANT' | 'INTERMEDIAIRE' | 'AVANCE';
+  
+  // Statistiques
+  views: number;
+  reads: number;
+  averageRating: number;
+  ratingCount: number;
+  
+  // Tags et recherche
+  tags: string[];
+  keywords: string[];
+  
+  // État et validation
+  isOfficial: boolean;
+  isVerified: boolean;
+  isValidated: boolean;
+  validatedBy?: string;
+  validationDate?: string;
+  
+  // Accès et restrictions
+  requiresMembership: boolean;
+  minRole: 'VISITOR' | 'MEMBER' | 'MENTOR' | 'ADMIN';
+  
+  // Timestamps
+  addedAt: string;
+  lastUpdated: string;
+};
+
+export type ReadingSession = {
+  id: string;
+  userId: string;
+  resourceId: string;
+  startedAt: string;
+  endedAt?: string;
+  duration: number; // en minutes
+  pagesRead?: number;
+  progress: number; // pourcentage
+  isCompleted: boolean;
+  device?: string;
+};
+
+export type LibraryStats = {
+  totalResources: number;
+  totalReads: number;
+  totalReadingTime: number; // en heures
+  completedBooks: number;
+  activeReaders: number;
+  popularCategories: Array<{
+    category: string;
+    count: number;
+  }>;
+  recentActivity: Array<{
+    userId: string;
+    resourceId: string;
+    action: 'STARTED' | 'COMPLETED' | 'BOOKMARKED';
+    timestamp: string;
+  }>;
+};
+
+export type LibraryBadge = {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  color: string;
+  requirement: {
+    type: 'BOOKS_READ' | 'READING_TIME' | 'CATEGORIES_EXPLORED' | 'STREAK_DAYS';
+    value: number;
+    target?: string; // catégorie spécifique si applicable
+  };
+  points: number;
+  unlockedAt?: string;
+};
+
+export type UserLibraryProgress = {
+  userId: string;
+  
+  // Statistiques de lecture
+  totalBooksRead: number;
+  totalPagesRead: number;
+  totalReadingTime: number; // en heures
+  currentStreak: number; // jours consécutifs
+  longestStreak: number;
+  
+  // Progression par catégorie
+  categoryProgress: Record<string, {
+    resourcesRead: number;
+    totalTime: number;
+    lastReadAt?: string;
+  }>;
+  
+  // Badges débloqués
+  unlockedBadges: string[];
+  
+  // Sessions récentes
+  recentSessions: ReadingSession[];
+  
+  // Favoris
+  favoriteResources: string[];
+  
+  // Historique
+  readingHistory: Array<{
+    resourceId: string;
+    title: string;
+    readAt: string;
+    duration: number;
+    progress: number;
+  }>;
+  
+  // Dernière activité
+  lastActivityAt: string;
+};
+
 // Types pour CODEL Library - Bibliothèque Numérique Intelligente
 export type LibraryResource = {
   id: string;
