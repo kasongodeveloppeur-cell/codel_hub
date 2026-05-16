@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-// CSS imports pour react-pdf - gérés via Vite config
-// import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-// import 'react-pdf/dist/esm/Page/TextLayer.css';
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -51,6 +48,13 @@ export const PDFReader: React.FC<PDFReaderProps> = ({
   const [bookmarkNote, setBookmarkNote] = useState<string>('');
   const [bookmarkTitle, setBookmarkTitle] = useState<string>('');
   const [rotation, setRotation] = useState<number>(0);
+
+  // Charger les styles CSS de react-pdf dynamiquement (désactivé pour le build)
+  useEffect(() => {
+    // Styles CSS désactivés temporairement pour résoudre le problème de build Vercel
+    // Les styles seront ajoutés manuellement dans le CSS global si nécessaire
+    console.log('PDFReader component mounted');
+  }, []);
 
   // Charger la progression de lecture
   useEffect(() => {

@@ -12,6 +12,11 @@
   ],
   "routes": [
     {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1",
+      "status": 200
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html",
       "status": 200
@@ -19,7 +24,7 @@
   ],
   "headers": [
     {
-      "source": "/static/(.*)",
+      "source": "/assets/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

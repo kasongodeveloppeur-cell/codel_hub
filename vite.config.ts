@@ -17,7 +17,6 @@ export default defineConfig(({mode}) => {
     },
     build: {
       rollupOptions: {
-        external: ['react-pdf/dist/esm/Page/AnnotationLayer.css', 'react-pdf/dist/esm/Page/TextLayer.css'],
         output: {
           manualChunks: {
             vendor: ['react', 'react-dom'],

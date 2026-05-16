@@ -72,6 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setLoading(false);
         }, (error) => {
           console.error("Error listening to user doc:", error);
+          setUser(null);
           setLoading(false);
         });
       } else {

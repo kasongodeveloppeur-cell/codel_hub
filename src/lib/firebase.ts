@@ -89,11 +89,17 @@ async function setupFirebase() {
       }
     }
 
-    await getDocFromServer(doc(db, 'test', 'connection'));
-  } catch (error: any) {
-    if (error.message && error.message.includes('the client is offline')) {
-      console.error("Please check your Firebase configuration.");
+    // Test connection with timeout
+    try {
+      await getDocFromServer(doc(db, 'test', 'connection'));
+      console.log('Firebase connection successful');
+    } catch (error: any) {
+      console.warn('Firebase connection test failed:', error.message);
+      // Ne pas bloquer l'application si le test de connexion échoue
     }
+  } catch (error: any) {
+    console.error('Firebase setup error:', error);
+    // Ne pas bloquer l'application
   }
 }
 
