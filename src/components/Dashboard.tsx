@@ -20,8 +20,8 @@ import React, { useEffect, useState } from 'react';
 import { eventService } from '../services/eventService';
 import { projectService } from '../services/projectService';
 import { Event, Project } from '../types';
-import { MOCK_EVENTS, MOCK_PROJECTS } from '../data';
 import ProjectModal from './ProjectModal';
+import { PWAInstaller } from './installation/PWAInstaller';
 
 export default function Dashboard() {
   const { user, isAdmin } = useAuth();
@@ -44,10 +44,7 @@ export default function Dashboard() {
       try {
         // Initialize if empty (for first run)
         if (isAdmin) {
-          await Promise.all([
-            eventService.initEvents(MOCK_EVENTS),
-            projectService.initProjects(MOCK_PROJECTS, user?.id || '')
-          ]);
+          // Les données seront initialisées via l'interface admin
         }
         
         const [evs, projs] = await Promise.all([
@@ -76,6 +73,9 @@ export default function Dashboard() {
 
   return (
     <div className="relative space-y-16 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
+      {/* PWA Installer */}
+      <PWAInstaller />
+      
       {/* Background Decorative Elements */}
       <div className="absolute inset-0 pointer-events-none opacity-5 overflow-hidden">
         <div className="absolute top-0 left-1/3 w-[1px] h-full bg-brand-cyan animate-pulse" />

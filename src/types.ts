@@ -637,6 +637,16 @@ export type AppUser = {
   clubRole: string;
   userStatus: UserStatus;
   userRole: UserRole;
+  isGuest?: boolean;
+  permissions?: {
+    canViewDashboard: boolean;
+    canEditProfile: boolean;
+    canAccessLibrary: boolean;
+    canJoinEvents: boolean;
+    canUploadContent: boolean;
+    canManageUsers: boolean;
+    canAccessAdminPanel: boolean;
+  };
   membershipApplicationId?: string;
   joinedAt?: string;
   lastLoginAt?: string;

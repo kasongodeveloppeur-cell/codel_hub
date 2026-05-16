@@ -10,7 +10,11 @@ import {
   Info,
   Users,
   BookOpen,
-  Award
+  Award,
+  Calendar,
+  Search,
+  Wifi,
+  Briefcase as Portfolio
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -31,6 +35,10 @@ export function Sidebar() {
     { icon: Users, label: 'Communauté', path: '/community' },
     { icon: Shield, label: 'Registre Membres', path: '/security' },
     { icon: User, label: 'Profil Personnel', path: '/profile' },
+    { icon: Portfolio, label: 'Portfolio', path: '/portfolio', badge: 'NEW' },
+    { icon: Calendar, label: 'Calendrier', path: '/calendar', badge: 'NEW' },
+    { icon: Search, label: 'Recherche', path: '/search', badge: 'NEW' },
+    { icon: Wifi, label: 'Hors Ligne', path: '/offline' },
     { icon: Info, label: 'À Propos', path: '/about' },
     ...(isAdmin ? [{ icon: Settings, label: 'Console Admin', path: '/admin' }] : [])
   ];

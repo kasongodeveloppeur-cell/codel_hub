@@ -319,49 +319,6 @@ export const CODELReader: React.FC<CODELReaderProps> = ({
                     <span className="text-slate-300">{progress}%</span>
                   </div>
                 </div>
-                
-                {/* Actions rapides */}
-                <button
-                  onClick={toggleFavorite}
-                  className="p-2 rounded-lg hover:bg-hub-surface/50 transition-colors"
-                  title={isFavorite ? "Retirer des favoris" : "Ajouter aux favoris"}
-                >
-                  <Heart className={clsx('w-5 h-5', isFavorite ? 'text-red-500 fill-red-500' : 'text-slate-400')} />
-                </button>
-                
-                <button
-                  onClick={() => setShowBookmarks(true)}
-                  className="p-2 rounded-lg hover:bg-hub-surface/50 transition-colors"
-                  title="Marque-pages"
-                >
-                  <Bookmark className="w-5 h-5 text-slate-400" />
-                </button>
-                
-                <button
-                  onClick={() => setShowStats(true)}
-                  className="p-2 rounded-lg hover:bg-hub-surface/50 transition-colors"
-                  title="Statistiques"
-                >
-                  <BarChart3 className="w-5 h-5 text-slate-400" />
-                </button>
-                
-                <button
-                  onClick={() => setIsDarkMode(!isDarkMode)}
-                  className="p-2 rounded-lg hover:bg-hub-surface/50 transition-colors"
-                  title="Mode sombre"
-                >
-                  {isDarkMode ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-slate-400" />}
-                </button>
-                
-                <button
-                  onClick={toggleFullscreen}
-                  className="p-2 rounded-lg hover:bg-hub-surface/50 transition-colors"
-                  title="Plein écran"
-                >
-                  {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
-                </button>
-              </div>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>

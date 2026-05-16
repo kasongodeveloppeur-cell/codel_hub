@@ -57,7 +57,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             points: 0,
             completedModules: [],
             attendedEvents: [],
-            projectsContributed: []
+            projectsContributed: [],
+            // Ajout pour le mode visiteur
+            isGuest: false,
+            permissions: {
+              canViewDashboard: true,
+              canEditProfile: true,
+              canAccessLibrary: true,
+              canJoinEvents: true,
+              canUploadContent: false,
+              canManageUsers: fUser.email === 'kasongodeveloppeur@gmail.com',
+              canAccessAdminPanel: fUser.email === 'kasongodeveloppeur@gmail.com'
+            }
           };
           await setDoc(userDocRef, newUser);
         }
@@ -76,7 +87,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setLoading(false);
         });
       } else {
-        setUser(null);
+        // Mode visiteur - créer un utilisateur invité
+        const guestUser: AppUser = {
+          id: 'guest-user',
+          name: 'Visiteur',
+          email: 'guest@codelhub.com',
+          status: 'Active',
+          avatar: 'https://i.pravatar.cc/150?u=guest',
+          level: 1,
+          handle: 'guest',
+          isAdmin: false,
+          clubRole: 'Visiteur',
+          geminiApiKey: '',
+          badges: [],
+          points: 0,
+          completedModules: [],
+          attendedEvents: [],
+          projectsContributed: [],
+          isGuest: true,
+          permissions: {
+            canViewDashboard: true,
+            canEditProfile: false,
+            canAccessLibrary: true,
+            canJoinEvents: false,
+            canUploadContent: false,
+            canManageUsers: false,
+            canAccessAdminPanel: false
+          }
+        };
+        setUser(guestUser);
         setLoading(false);
       }
     });

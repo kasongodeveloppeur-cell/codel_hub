@@ -21,7 +21,6 @@ import { motion } from 'motion/react';
 import React, { useEffect, useState } from 'react';
 import { educationService } from '../services/educationService';
 import { LearningPath, Module } from '../types';
-import { MOCK_MODULES, MOCK_PATH } from '../data';
 import { useAuth } from '../context/AuthContext';
 
 export default function Education() {
@@ -35,7 +34,7 @@ export default function Education() {
     const fetchData = async () => {
       try {
         if (isAdmin) {
-          await educationService.initEducation(MOCK_PATH, MOCK_MODULES);
+          // Les données seront initialisées via l'interface admin
         }
         const availablePaths = await educationService.getLearningPaths();
         setPaths(availablePaths);
@@ -53,7 +52,7 @@ export default function Education() {
     fetchData();
   }, [isAdmin]);
 
-  const featuredPath = paths[0] || MOCK_PATH;
+  const featuredPath = paths[0];
 
   if (loading) {
     return (
