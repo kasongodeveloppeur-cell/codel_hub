@@ -10,6 +10,8 @@ import {
   where,
   orderBy,
   limit,
+  Query,
+  DocumentData,
   startAfter,
   getDoc,
   arrayUnion,
@@ -127,7 +129,7 @@ export const libraryService = {
   // Recherche intelligente de ressources
   async searchResources(searchQuery: SearchQuery): Promise<SearchResult[]> {
     try {
-      let q = collection(db, LIBRARY_COLLECTION);
+      let q: Query<DocumentData> = collection(db, LIBRARY_COLLECTION);
       
       // Filtrage par catégorie
       if (searchQuery.category) {
@@ -150,9 +152,8 @@ export const libraryService = {
       }
       
       // Tri
-      const sortField = searchQuery.sortBy || 'relevance';
-      const sortOrder = searchQuery.sortOrder || 'desc';
-      q = query(q, orderBy(sortField, sortOrder === 'desc' ? 'desc' : 'asc'));
+      const sortField = searchQuery.sortBy === 'rating' ? 'rating' : searchQuery.sortBy === 'downloads' ? 'downloads' : searchQuery.sortBy === 'date' ? 'uploadedAt' : 'title';
+      q = query(q, orderBy(sortField, searchQuery.sortOrder === 'desc' ? 'desc' : 'asc'));
       
       // Limitation
       q = query(q, limit(50));
@@ -160,8 +161,8 @@ export const libraryService = {
       const snapshot = await getDocs(q);
       const resources = snapshot.docs.map(doc => ({ 
         id: doc.id, 
-        ...doc.data() 
-      } as LibraryResource));
+        ...doc.data() as LibraryResource
+      }));
       
       // Calculer le score de pertinence
       const results = resources.map(resource => ({

@@ -1,4 +1,4 @@
-import { Member, Event, Project, Module, LearningPath, AppUser, Badge, DigitalLibrary } from './types';
+import { Member, Event, Project, Module, LearningPath, AppUser, Badge, LibraryResource } from './types';
 
 export const MOCK_MEMBERS: Member[] = [
   {
@@ -450,20 +450,29 @@ export const MOCK_MODULES: Module[] = [
   }
 ];
 
-// Bibliothèque numérique CODEL
-export const MOCK_DIGITAL_LIBRARY: DigitalLibrary[] = [
+export const MOCK_DIGITAL_LIBRARY: LibraryResource[] = [
   {
     id: 'lib-001',
     title: 'Python Crash Course',
     category: 'PROGRAMMATION',
     type: 'LIVRE',
     url: 'https://example.com/python-crash-course',
+    downloadUrl: 'https://example.com/python-crash-course.pdf',
     description: 'Guide complet pour apprendre Python rapidement',
     author: 'Eric Matthes',
     difficulty: 'Débutant',
     tags: ['Python', 'Programmation', 'Débutant'],
     rating: 4.8,
-    downloads: 1250
+    downloads: 1250,
+    views: 3400,
+    fileSize: '15.2 MB',
+    pages: 544,
+    language: 'FR',
+    isOfflineAvailable: true,
+    uploadedAt: '2024-01-15T10:00:00Z',
+    lastUpdated: '2024-01-15T10:00:00Z',
+    isOfficial: false,
+    isVerified: true
   },
   {
     id: 'lib-002',
@@ -471,12 +480,22 @@ export const MOCK_DIGITAL_LIBRARY: DigitalLibrary[] = [
     category: 'IA',
     type: 'PDF',
     url: 'https://example.com/intro-ia',
+    downloadUrl: 'https://example.com/intro-ia.pdf',
     description: 'Concepts fondamentaux de l\'intelligence artificielle',
     author: 'Dr. Sophie Martin',
     difficulty: 'Intermédiaire',
     tags: ['IA', 'Machine Learning', 'Concepts'],
     rating: 4.6,
-    downloads: 890
+    downloads: 890,
+    views: 2100,
+    fileSize: '8.7 MB',
+    pages: 312,
+    language: 'FR',
+    isOfflineAvailable: true,
+    uploadedAt: '2024-02-20T14:30:00Z',
+    lastUpdated: '2024-02-20T14:30:00Z',
+    isOfficial: false,
+    isVerified: true
   },
   {
     id: 'lib-003',
@@ -484,12 +503,22 @@ export const MOCK_DIGITAL_LIBRARY: DigitalLibrary[] = [
     category: 'CYBERSECURITE',
     type: 'TUTORIEL',
     url: 'https://example.com/securite-reseau',
+    downloadUrl: 'https://example.com/securite-reseau.pdf',
     description: 'Protéger ses réseaux et systèmes',
     author: 'Jordan Smith',
     difficulty: 'Avancé',
     tags: ['Sécurité', 'Réseau', 'Cybersécurité'],
     rating: 4.7,
-    downloads: 567
+    downloads: 567,
+    views: 1800,
+    fileSize: '12.1 MB',
+    pages: 428,
+    language: 'FR',
+    isOfflineAvailable: true,
+    uploadedAt: '2024-03-10T09:15:00Z',
+    lastUpdated: '2024-03-10T09:15:00Z',
+    isOfficial: false,
+    isVerified: true
   },
   {
     id: 'lib-004',
@@ -502,7 +531,15 @@ export const MOCK_DIGITAL_LIBRARY: DigitalLibrary[] = [
     difficulty: 'Intermédiaire',
     tags: ['Design', 'UI', 'UX', 'Figma'],
     rating: 4.9,
-    downloads: 1100
+    downloads: 1100,
+    views: 3200,
+    duration: '2h 45min',
+    language: 'FR',
+    isOfflineAvailable: false,
+    uploadedAt: '2024-01-25T16:45:00Z',
+    lastUpdated: '2024-01-25T16:45:00Z',
+    isOfficial: false,
+    isVerified: true
   },
   {
     id: 'lib-005',
@@ -510,25 +547,44 @@ export const MOCK_DIGITAL_LIBRARY: DigitalLibrary[] = [
     category: 'MATHEMATIQUES',
     type: 'PDF',
     url: 'https://example.com/maths-ia',
+    downloadUrl: 'https://example.com/maths-ia.pdf',
     description: 'Bases mathématiques pour l\'intelligence artificielle',
     author: 'Prof. Robert Dubois',
     difficulty: 'Avancé',
     tags: ['Mathématiques', 'IA', 'Algèbre'],
     rating: 4.5,
-    downloads: 445
+    downloads: 445,
+    views: 980,
+    fileSize: '22.4 MB',
+    pages: 672,
+    language: 'FR',
+    isOfflineAvailable: true,
+    uploadedAt: '2024-02-15T11:20:00Z',
+    lastUpdated: '2024-02-15T11:20:00Z',
+    isOfficial: false,
+    isVerified: true
   },
   {
     id: 'lib-006',
     title: 'Réseaux informatiques',
     category: 'RESEAUX',
-    type: 'LIEN',
+    type: 'GUIDE', // Corriger 'LIEN' en 'GUIDE'
     url: 'https://example.com/reseaux-info',
     description: 'Comprendre les protocoles et architectures réseau',
     author: 'Sarah Chen',
     difficulty: 'Intermédiaire',
     tags: ['Réseau', 'TCP/IP', 'Protocoles'],
     rating: 4.4,
-    downloads: 678
+    downloads: 678,
+    views: 1200,
+    fileSize: '5.8 MB',
+    pages: 156,
+    language: 'FR',
+    isOfflineAvailable: true,
+    uploadedAt: '2024-03-05T13:45:00Z',
+    lastUpdated: '2024-03-05T13:45:00Z',
+    isOfficial: false,
+    isVerified: true
   }
 ];
 

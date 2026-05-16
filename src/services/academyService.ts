@@ -360,8 +360,8 @@ export const academyService = {
         completedModules: [],
         currentModule: '',
         progress: 0,
-        startedAt: serverTimestamp(),
-        lastAccessedAt: serverTimestamp(),
+        startedAt: new Date().toISOString(),
+        lastAccessedAt: new Date().toISOString(),
         timeSpent: 0,
         quizScores: []
       };
@@ -503,7 +503,7 @@ export const academyService = {
         points,
         description: reason,
         relatedId,
-        createdAt: serverTimestamp()
+        createdAt: new Date().toISOString()
       };
       
       await addDoc(collection(db, CONTRIBUTION_ACTIVITIES_COLLECTION), activity);
