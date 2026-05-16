@@ -1,20 +1,81 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CODEL HUB | Computer Club Management</title>
-    <style>
-      html, body {
-        background-color: #0b0e14;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Platforme collaborative d'apprentissage pour étudiants développeurs avec bibliothèque numérique, tutoriels et système de gamification" />
+  <meta name="keywords" content="CODEL, programmation, développement, apprendre, tutoriels, communauté" />
+  <meta name="author" content="CODEL Club" />
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#00f2ff" />
+  <meta name="background-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="CODEL Hub" />
+  <meta name="application-name" content="CODEL Hub" />
+  <meta name="msapplication-TileColor" content="#00f2ff" />
+  <meta name="msapplication-config" content="/browserconfig.xml" />
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="CODEL Hub - Community Of Developers & Learners" />
+  <meta property="og:description" content="Platforme collaborative d'apprentissage pour étudiants développeurs" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og-image.png" />
+  <meta property="og:url" content="https://codel-hub.vercel.app" />
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CODEL Hub - Community Of Developers & Learners" />
+  <meta name="twitter:description" content="Platforme collaborative d'apprentissage pour étudiants développeurs" />
+  <meta name="twitter:image" content="/twitter-image.png" />
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+  
+  <!-- PWA Icons -->
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon-72x72.png" />
+  <link rel="apple-touch-icon" sizes="96x96" href="/icon-96x96.png" />
+  <link rel="apple-touch-icon" sizes="128x128" href="/icon-128x128.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon-144x144.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="/icon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="384x384" href="/icon-384x384.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="/icon-512x512.png" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('SW registered: ', registration);
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+  </script>
+  
+  <style>
+    html, body {
+      background-color: #0b0e14;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  
+  <title>CODEL Hub - Community Of Developers & Learners</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
 </html>
-

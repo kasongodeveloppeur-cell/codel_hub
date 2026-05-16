@@ -1,3 +1,188 @@
+// Types pour le système d'accès CODEL
+export type UserStatus = 'GUEST' | 'CANDIDATE' | 'MEMBER' | 'MENTOR' | 'ADMIN';
+export type UserRole = 'VISITOR' | 'APPLICANT' | 'MEMBER' | 'CONTRIBUTOR' | 'MENTOR' | 'RESPONSIBLE' | 'ADMIN';
+
+export type MembershipApplication = {
+  id: string;
+  userId: string;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'NEEDS_INFO';
+  submittedAt: string;
+  reviewedAt?: string;
+  reviewedBy?: string;
+  rejectionReason?: string;
+  additionalInfoRequested?: string[];
+  
+  // Informations personnelles
+  personalInfo: {
+    fullName: string;
+    photo?: string;
+    gender?: 'MALE' | 'FEMALE' | 'OTHER';
+    birthDate?: string;
+  };
+  
+  // Informations universitaires
+  universityInfo: {
+    university: string;
+    faculty: string;
+    department: string;
+    level: string;
+    studentId?: string;
+  };
+  
+  // Contact
+  contact: {
+    email: string;
+    phone: string;
+  };
+  
+  // Motivation et centres d'intérêt
+  motivation: {
+    reason: string;
+    interests: ('WEB' | 'MOBILE' | 'AI' | 'CYBERSECURITY' | 'DESIGN' | 'NETWORK' | 'ROBOTICS')[];
+    currentLevel: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED';
+    availability: ('WEEKEND' | 'EVENING' | 'WEEKDAYS')[];
+    existingSkills: string[];
+  };
+  
+  // Engagement
+  commitment: {
+    respectsRules: boolean;
+    participatesActivities: boolean;
+  };
+};
+
+export type Permission = {
+  canViewPublicContent: boolean;
+  canViewEvents: boolean;
+  canViewTutorials: boolean;
+  canViewLibrary: boolean;
+  canViewProjects: boolean;
+  canViewCommunity: boolean;
+  canCreateContent: boolean;
+  canUploadTutorials: boolean;
+  canManageResources: boolean;
+  canManageMembers: boolean;
+  canManageApplications: boolean;
+  canManageEvents: boolean;
+  canViewStatistics: boolean;
+  canModerateContent: boolean;
+};
+
+export const PERMISSIONS_BY_ROLE: Record<UserRole, Permission> = {
+  VISITOR: {
+    canViewPublicContent: true,
+    canViewEvents: true,
+    canViewTutorials: false,
+    canViewLibrary: false,
+    canViewProjects: false,
+    canViewCommunity: false,
+    canCreateContent: false,
+    canUploadTutorials: false,
+    canManageResources: false,
+    canManageMembers: false,
+    canManageApplications: false,
+    canManageEvents: false,
+    canViewStatistics: false,
+    canModerateContent: false,
+  },
+  APPLICANT: {
+    canViewPublicContent: true,
+    canViewEvents: true,
+    canViewTutorials: false,
+    canViewLibrary: false,
+    canViewProjects: false,
+    canViewCommunity: false,
+    canCreateContent: false,
+    canUploadTutorials: false,
+    canManageResources: false,
+    canManageMembers: false,
+    canManageApplications: false,
+    canManageEvents: false,
+    canViewStatistics: false,
+    canModerateContent: false,
+  },
+  MEMBER: {
+    canViewPublicContent: true,
+    canViewEvents: true,
+    canViewTutorials: true,
+    canViewLibrary: true,
+    canViewProjects: true,
+    canViewCommunity: true,
+    canCreateContent: false,
+    canUploadTutorials: false,
+    canManageResources: false,
+    canManageMembers: false,
+    canManageApplications: false,
+    canManageEvents: false,
+    canViewStatistics: false,
+    canModerateContent: false,
+  },
+  CONTRIBUTOR: {
+    canViewPublicContent: true,
+    canViewEvents: true,
+    canViewTutorials: true,
+    canViewLibrary: true,
+    canViewProjects: true,
+    canViewCommunity: true,
+    canCreateContent: true,
+    canUploadTutorials: false,
+    canManageResources: false,
+    canManageMembers: false,
+    canManageApplications: false,
+    canManageEvents: false,
+    canViewStatistics: false,
+    canModerateContent: false,
+  },
+  MENTOR: {
+    canViewPublicContent: true,
+    canViewEvents: true,
+    canViewTutorials: true,
+    canViewLibrary: true,
+    canViewProjects: true,
+    canViewCommunity: true,
+    canCreateContent: true,
+    canUploadTutorials: true,
+    canManageResources: false,
+    canManageMembers: false,
+    canManageApplications: false,
+    canManageEvents: true,
+    canViewStatistics: true,
+    canModerateContent: true,
+  },
+  RESPONSIBLE: {
+    canViewPublicContent: true,
+    canViewEvents: true,
+    canViewTutorials: true,
+    canViewLibrary: true,
+    canViewProjects: true,
+    canViewCommunity: true,
+    canCreateContent: true,
+    canUploadTutorials: true,
+    canManageResources: true,
+    canManageMembers: false,
+    canManageApplications: true,
+    canManageEvents: true,
+    canViewStatistics: true,
+    canModerateContent: true,
+  },
+  ADMIN: {
+    canViewPublicContent: true,
+    canViewEvents: true,
+    canViewTutorials: true,
+    canViewLibrary: true,
+    canViewProjects: true,
+    canViewCommunity: true,
+    canCreateContent: true,
+    canUploadTutorials: true,
+    canManageResources: true,
+    canManageMembers: true,
+    canManageApplications: true,
+    canManageEvents: true,
+    canViewStatistics: true,
+    canModerateContent: true,
+  },
+};
+
 // Types pour le système de motivation CODEL
 export type Badge = {
   id: string;
@@ -306,21 +491,42 @@ export type AppUser = {
   id: string;
   name: string;
   email: string;
-  status: string;
+  handle: string;
   avatar: string;
   level: number;
-  handle: string;
+  points: number;
   isAdmin: boolean;
-  clubRole: 'Président' | 'Vice-Président' | 'Secrétaire' | 'Responsable Formation' | 'Responsable Projets' | 'Responsable Communication' | 'Membre';
-  role?: string;
-  geminiApiKey?: string;
-  skills?: string[];
-  tools?: string[];
-  platforms?: string[];
-  bio?: string;
+  clubRole: string;
+  userStatus: UserStatus;
+  userRole: UserRole;
+  membershipApplicationId?: string;
+  joinedAt?: string;
+  lastLoginAt?: string;
+  notificationPreferences: {
+    securityAlerts: boolean;
+    projectUpdates: boolean;
+    educationUpdates: boolean;
+    communityActivity: boolean;
+    achievements: boolean;
+    systemUpdates: boolean;
+    emailNotifications: boolean;
+    pushNotifications: boolean;
+    dailyDigest: boolean;
+    weeklyDigest: boolean;
+  };
+  // Informations de candidature (si applicable)
+  membershipApplication?: MembershipApplication;
+  // Statistiques
+  stats: {
+    projectsCount: number;
+    tutorialsCount: number;
+    forumPostsCount: number;
+    eventsAttended: number;
+    badgesEarned: number;
+    contributionPoints: number;
+  };
   // Système de motivation CODEL
   badges: Badge[];
-  points: number;
   portfolio?: string;
   // Suivi de progression
   completedModules: string[];
@@ -335,16 +541,7 @@ export type AppUser = {
   completedCourses?: string[]; // IDs des cours complétés
   tutorialProgress?: StudentProgress[]; // Progression dans les cours
   creatorStats?: CreatorStats; // Statistiques de créateur
-  // Préférences
-  notificationPreferences?: {
-    securityAlerts: boolean;
-    projectUpdates: boolean;
-    trainingUpdates: boolean;
-    eventReminders: boolean;
-    newTutorials: boolean;
-    newResources: boolean;
-    creatorRewards: boolean;
-  };
+  // Préférences (déjà définies plus haut)
 };
 
 export type Member = AppUser; // For backward compatibility if needed
